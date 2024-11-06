@@ -1,26 +1,26 @@
+import routerMeta, { IRouterMeta } from "@/lib/routerMeta";
+import { Link } from "react-router-dom";
+import NavItem from "./NavItem";
+import { useContext } from "react";
+import { UserContext } from "@/context/UserContextProvider";
+
 const Header = () => {
+  const { isLogin } = useContext(UserContext);
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <a className="navbar-brand" href="/">
+        <Link to="/" className="navbar-brand">
           conduit
-        </a>
+        </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          <li className="nav-item">
-            <a className="nav-link active" href="/">
-              Home
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/login">
-              Sign in
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/register">
-              Sign up
-            </a>
-          </li>
+          {Object.keys(routerMeta).map((componentKey: string) => {
+            const menu: IRouterMeta = routerMeta[componentKey];
+
+            if ((menu.isShow && menu.isCommon) || (menu.isShow && !menu.isAuth && !isLogin)) {
+              return <NavItem key={menu.path} menu={menu} />;
+            }
+          })}
         </ul>
       </div>
     </nav>

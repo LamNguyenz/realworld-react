@@ -1,9 +1,10 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/common/Layout";
 import ErrorFallback from "./components/ErrorFallback";
 import routerMeta from "./lib/routerMeta";
+import LoadingFallback from "./components/LoadingFallback";
 
 const assignRouter = Object.keys(routerMeta).map((componentKey) => {
   const props = routerMeta[componentKey];
@@ -23,10 +24,14 @@ const Router = () => {
             key={props.path}
             path={props.path}
             element={
-              <ErrorBoundary
-                fallbackRender={({ resetErrorBoundary }) => <ErrorFallback resetErrorBoundary={resetErrorBoundary} />}>
-                {Component && <Component />}
-              </ErrorBoundary>
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary
+                  fallbackRender={({ resetErrorBoundary, error }) => {
+                    return <ErrorFallback resetErrorBoundary={resetErrorBoundary} />;
+                  }}>
+                  {Component && <Component />}
+                </ErrorBoundary>
+              </Suspense>
             }
           />
         ))}

@@ -14,6 +14,7 @@ export type RouterMetaType = {
 
 const routerMeta: RouterMetaType = {
   HomePage: {
+    name: "Home",
     path: "/",
     isShow: true,
     isCommon: true,
@@ -24,12 +25,14 @@ const routerMeta: RouterMetaType = {
     path: "/login",
     isShow: true,
     isAuth: false,
+    lazyImport: () => import("@/pages/Login"),
   },
   SignUpPage: {
     name: "Sign up",
     path: "/register",
     isShow: true,
     isAuth: false,
+    lazyImport: () => import("@/pages/Register"),
   },
   NotFoundPage: {
     path: "/*",
