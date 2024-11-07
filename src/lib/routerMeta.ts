@@ -20,6 +20,14 @@ const routerMeta: RouterMetaType = {
     isCommon: true,
     lazyImport: () => import("@/pages/HomePage"),
   },
+  SettingPage: {
+    name: "Setting",
+    path: "/settings",
+    isShow: true,
+    isAuth: true,
+    icon: "ion-gear-a",
+    lazyImport: () => import("@/pages/SettingPage"),
+  },
   SignInPage: {
     name: "Sign in",
     path: "/login",

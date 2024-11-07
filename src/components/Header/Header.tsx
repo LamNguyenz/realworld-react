@@ -1,8 +1,8 @@
+import { UserContext } from "@/context/UserContextProvider";
 import routerMeta, { IRouterMeta } from "@/lib/routerMeta";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import NavItem from "./NavItem";
-import { useContext } from "react";
-import { UserContext } from "@/context/UserContextProvider";
 
 const Header = () => {
   const { isLogin } = useContext(UserContext);
@@ -17,7 +17,11 @@ const Header = () => {
           {Object.keys(routerMeta).map((componentKey: string) => {
             const menu: IRouterMeta = routerMeta[componentKey];
 
-            if ((menu.isShow && menu.isCommon) || (menu.isShow && !menu.isAuth && !isLogin)) {
+            if (
+              (menu.isShow && menu.isCommon) ||
+              (menu.isShow && menu.isAuth && isLogin) ||
+              (menu.isShow && !menu.isAuth && !isLogin)
+            ) {
               return <NavItem key={menu.path} menu={menu} />;
             }
           })}
