@@ -1,15 +1,15 @@
 import routerMeta from "@/lib/routerMeta";
 import { Link } from "react-router-dom";
 
-const Register = () => {
+const LoginPage = () => {
   return (
     <div className="auth-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">Sign up</h1>
+            <h1 className="text-xs-center">Sign in</h1>
             <p className="text-xs-center">
-              <Link to={routerMeta.SignInPage.path}>Have an account?</Link>
+              <Link to={routerMeta.SignUpPage.path}>Need an account?</Link>
             </p>
 
             <ul className="error-messages">
@@ -18,15 +18,12 @@ const Register = () => {
 
             <form>
               <fieldset className="form-group">
-                <input className="form-control form-control-lg" type="text" placeholder="Username" />
-              </fieldset>
-              <fieldset className="form-group">
                 <input className="form-control form-control-lg" type="text" placeholder="Email" />
               </fieldset>
               <fieldset className="form-group">
                 <input className="form-control form-control-lg" type="password" placeholder="Password" />
               </fieldset>
-              <button className="btn btn-lg btn-primary pull-xs-right">Sign up</button>
+              <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
             </form>
           </div>
         </div>
@@ -35,4 +32,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default LoginPage;

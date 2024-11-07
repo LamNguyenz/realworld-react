@@ -25,14 +25,14 @@ const routerMeta: RouterMetaType = {
     path: "/login",
     isShow: true,
     isAuth: false,
-    lazyImport: () => import("@/pages/Login"),
+    lazyImport: () => import("@/pages/LoginPage"),
   },
   SignUpPage: {
     name: "Sign up",
     path: "/register",
     isShow: true,
     isAuth: false,
-    lazyImport: () => import("@/pages/Register"),
+    lazyImport: () => import("@/pages/RegisterPage"),
   },
   NotFoundPage: {
     path: "/*",
