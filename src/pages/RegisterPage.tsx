@@ -28,7 +28,6 @@ const RegisterPage = () => {
         navigate("/", { replace: true });
       })
       .catch((err) => {
-        console.log("err: ", err);
         const messages = err?.response?.data?.message;
         setError(Array.isArray(messages) ? messages : [messages]);
       });

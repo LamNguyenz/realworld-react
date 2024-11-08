@@ -4,10 +4,12 @@ import { postLoginParam, postRegisterParam } from "./usersRepository.param";
 export const postLogin = async ({ email, password }: postLoginParam) => {
   return await apiClient({
     method: "post",
-    url: "/users/login",
+    url: `/users/login`,
     data: {
-      email,
-      password,
+      user: {
+        email,
+        password,
+      },
     },
   });
 };

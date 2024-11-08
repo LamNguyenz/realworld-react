@@ -1,7 +1,37 @@
+import { UserContext } from "@/context/UserContextProvider";
+import useInputs from "@/lib/hooks/useInputs";
 import routerMeta from "@/lib/routerMeta";
-import { Link } from "react-router-dom";
+import Token from "@/lib/token";
+import { postLogin } from "@/repositories/users/usersRepository";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const [error, setError] = useState<string[]>([]);
+  const [signInData, onChangeSignInData] = useInputs({
+    email: "",
+    password: "",
+  });
+
+  const { setIsLogin } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const onLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    postLogin(signInData)
+      .then((res) => {
+        Token.setToken(res?.data?.user?.token);
+        setIsLogin(!!Token.getToken());
+        navigate("/", { replace: true });
+      })
+      .catch((err) => {
+        const messages = err?.response?.data?.message;
+        setError(Array.isArray(messages) ? messages : [messages]);
+      });
+  };
+
   return (
     <div className="auth-page">
       <div className="container page">
@@ -13,15 +43,31 @@ const LoginPage = () => {
             </p>
 
             <ul className="error-messages">
-              <li>That email is already taken</li>
+              {error.map((message) => (
+                <li key={message}>{message}</li>
+              ))}
             </ul>
 
-            <form>
+            <form onSubmit={onLogin}>
               <fieldset className="form-group">
-                <input className="form-control form-control-lg" type="text" placeholder="Email" />
+                <input
+                  className="form-control form-control-lg"
+                  type="text"
+                  placeholder="Email"
+                  name="email"
+                  value={signInData.email}
+                  onChange={onChangeSignInData}
+                />
               </fieldset>
               <fieldset className="form-group">
-                <input className="form-control form-control-lg" type="password" placeholder="Password" />
+                <input
+                  className="form-control form-control-lg"
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={signInData.password}
+                  onChange={onChangeSignInData}
+                />
               </fieldset>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
             </form>
