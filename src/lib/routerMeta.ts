@@ -5,7 +5,7 @@ export interface IRouterMeta {
   isCommon?: boolean;
   isAuth?: boolean;
   icon?: string;
-  lazyImport?: () => Promise<{ default: React.ComponentType<any> }>;
+  lazyImport?: () => Promise<{ default: React.ComponentType }>;
 }
 
 export type RouterMetaType = {
@@ -19,6 +19,14 @@ const routerMeta: RouterMetaType = {
     isShow: true,
     isCommon: true,
     lazyImport: () => import("@/pages/HomePage"),
+  },
+  NewArticlePage: {
+    name: "New Article",
+    path: "/editor",
+    isShow: true,
+    isAuth: true,
+    icon: "ion-compose",
+    lazyImport: () => import("@/pages/NewArticlePage"),
   },
   SettingPage: {
     name: "Setting",
