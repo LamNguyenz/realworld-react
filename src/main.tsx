@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { NuqsAdapter } from "nuqs/adapters/react";
 
 import App from "./App.tsx";
 import queryClient from "./queries/queryClient.ts";
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <NuqsAdapter>
+          <App />
+        </NuqsAdapter>
         <ToastContainer position="bottom-right" />
       </QueryClientProvider>
     </BrowserRouter>
