@@ -1,5 +1,9 @@
 import apiClient from "../apiClient";
-import { postLoginParam, postRegisterParam } from "./usersRepository.param";
+import {
+  postLoginParam,
+  postRegisterParam,
+  putUserParam,
+} from "./usersRepository.param";
 
 export const postLogin = async ({ email, password }: postLoginParam) => {
   return await apiClient({
@@ -14,7 +18,11 @@ export const postLogin = async ({ email, password }: postLoginParam) => {
   });
 };
 
-export const postRegister = async ({ username, email, password }: postRegisterParam) => {
+export const postRegister = async ({
+  username,
+  email,
+  password,
+}: postRegisterParam) => {
   return await apiClient({
     method: "post",
     url: `/users`,
@@ -32,5 +40,13 @@ export const getUser = async () => {
   return await apiClient({
     method: "get",
     url: `/user`,
+  });
+};
+
+export const putUser = async (data: { user: putUserParam }) => {
+  return await apiClient({
+    method: "put",
+    url: `/user`,
+    data,
   });
 };

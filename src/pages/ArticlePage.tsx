@@ -17,7 +17,7 @@ const ArticlePage = () => {
     <div className="article-page">
       <div className="banner">
         <div className="container">
-          <h1>{articleInfo.data?.title || "TITLE"}</h1>
+          <h1>{articleInfo.data?.title}</h1>
 
           <div className="article-meta">
             <Link to={`/profile/${articleInfo.data?.author?.username}`}>

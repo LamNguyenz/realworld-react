@@ -5,7 +5,7 @@ import {
   getArticle,
   getArticles,
 } from "@/repositories/articles/articlesRepository";
-import { useMutation, useQueries, useSuspenseQueries } from "@tanstack/react-query";
+import { useMutation, useSuspenseQueries } from "@tanstack/react-query";
 
 export const useGetArticlesQueries = ({
   isGlobal,
@@ -14,7 +14,7 @@ export const useGetArticlesQueries = ({
   isGlobal: boolean;
   page: number;
 }) => {
-  return useQueries({
+  return useSuspenseQueries({
     queries: [
       {
         queryKey: [QUERY_ARTICLES_KEY, { isGlobal, page }],
