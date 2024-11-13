@@ -1,12 +1,36 @@
-import { createArticle, getArticles } from "@/repositories/articles/articlesRepository";
-import { useMutation, useQueries } from "@tanstack/react-query";
+import { QUERY_ARTICLE_KEY, QUERY_ARTICLES_KEY } from "@/constants/query.constant";
+import {
+  createArticle,
+  deleteArticle,
+  getArticle,
+  getArticles,
+} from "@/repositories/articles/articlesRepository";
+import { useMutation, useQueries, useSuspenseQueries } from "@tanstack/react-query";
 
-export const useGetArticlesQueries = ({ isGlobal, page }: { isGlobal: boolean; page: number }) => {
+export const useGetArticlesQueries = ({
+  isGlobal,
+  page,
+}: {
+  isGlobal: boolean;
+  page: number;
+}) => {
   return useQueries({
     queries: [
       {
-        queryKey: ["articles", {isGlobal, page }],
+        queryKey: [QUERY_ARTICLES_KEY, { isGlobal, page }],
         queryFn: () => getArticles({ isGlobal, page }).then((res) => res.data),
+        staleTime: 20000,
+      },
+    ],
+  });
+};
+
+export const useGetArticleQueries = (slug: string) => {
+  return useSuspenseQueries({
+    queries: [
+      {
+        queryKey: [QUERY_ARTICLE_KEY, slug],
+        queryFn: () => getArticle({ slug }).then((res) => res.data?.article),
         staleTime: 20000,
       },
     ],
@@ -16,4 +40,9 @@ export const useGetArticlesQueries = ({ isGlobal, page }: { isGlobal: boolean; p
 export const useCreateArticleMutation = () =>
   useMutation({
     mutationFn: createArticle,
+  });
+
+export const useDeleteArticleMutation = () =>
+  useMutation({
+    mutationFn: deleteArticle,
   });

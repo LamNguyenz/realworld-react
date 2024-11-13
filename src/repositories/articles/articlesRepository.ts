@@ -1,15 +1,38 @@
 import { UNIT_PER_PAGE } from "@/constants";
 import apiClient from "../apiClient";
-import { craeteArticleParam, getArticlesParam } from "./articlesRepository.param";
+import {
+  craeteArticleParam,
+  deleteArticleParam,
+  getArticleParam,
+  getArticlesParam,
+} from "./articlesRepository.param";
 
-export const getArticles = async ({ page, limit = UNIT_PER_PAGE, isGlobal }: getArticlesParam) => {
+export const getArticles = async ({
+  page,
+  limit = UNIT_PER_PAGE,
+  isGlobal,
+}: getArticlesParam) => {
   return await apiClient({
     method: "get",
-    url: `/articles${isGlobal ? "" : "/feed"}?limit=${limit}&&offset=${(page - 1) * limit}`,
+    url: `/articles${isGlobal ? "" : "/feed"}?limit=${limit}&&offset=${
+      (page - 1) * limit
+    }`,
   });
 };
 
-export const createArticle = async ({ title, description, body, tagList }: craeteArticleParam) => {
+export const getArticle = async ({ slug }: getArticleParam) => {
+  return await apiClient({
+    method: "get",
+    url: `/articles/${slug}`,
+  });
+};
+
+export const createArticle = async ({
+  title,
+  description,
+  body,
+  tagList,
+}: craeteArticleParam) => {
   return await apiClient({
     method: "post",
     url: `/articles`,
@@ -21,5 +44,12 @@ export const createArticle = async ({ title, description, body, tagList }: craet
         tagList,
       },
     },
+  });
+};
+
+export const deleteArticle = async ({ slug }: deleteArticleParam) => {
+  return await apiClient({
+    method: "delete",
+    url: `/articles/${slug}`,
   });
 };

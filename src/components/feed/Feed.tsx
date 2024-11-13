@@ -10,12 +10,12 @@ const Feed = ({ article }: FeedProps) => {
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link to={`/profile/${article.author.username}`} state={article.author.username}>
-          <img src={article.author.image} alt="profile" />
+        <Link to={`/profile/${article.author?.username}`} state={article.author?.username}>
+          <img src={article.author?.image} alt="profile" />
         </Link>
         <div className="info">
-          <Link to={`/profile/${article.author.username}`} state={article.author.username} className="author">
-            {article.author.username}
+          <Link to={`/profile/${article.author?.username}`} state={article.author?.username} className="author">
+            {article.author?.username}
           </Link>
           <span className="date">{convertToDate(article.createdAt)}</span>
         </div>

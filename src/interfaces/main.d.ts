@@ -16,3 +16,11 @@ export interface IArticle {
   favoritesCount: number;
   author: IProfileInfo;
 }
+
+export interface IComment {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  body: string;
+  author: IProfileInfo;
+}

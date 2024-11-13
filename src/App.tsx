@@ -3,9 +3,11 @@ import Router from "./Router";
 
 function App() {
   return (
-    <UserContextProvider>
-      <Router />
-    </UserContextProvider>
+    <>
+      <UserContextProvider>
+        <Router />
+      </UserContextProvider>
+    </>
   );
 }
 

@@ -27,3 +27,10 @@ export const postRegister = async ({ username, email, password }: postRegisterPa
     },
   });
 };
+
+export const getUser = async () => {
+  return await apiClient({
+    method: "get",
+    url: `/user`,
+  });
+};

@@ -28,6 +28,12 @@ const routerMeta: RouterMetaType = {
     icon: "ion-compose",
     lazyImport: () => import("@/pages/NewArticlePage"),
   },
+  ArticlePage: {
+    name: "Article",
+    path: "/article/:slug",
+    isShow: false,
+    lazyImport: () => import("@/pages/ArticlePage"),
+  },
   SettingPage: {
     name: "Setting",
     path: "/settings",
