@@ -1,3 +1,5 @@
+import ProfilePage from "@/pages/ProfilePage";
+
 export interface IRouterMeta {
   name?: string;
   path: string;
@@ -41,6 +43,12 @@ const routerMeta: RouterMetaType = {
     isAuth: true,
     icon: "ion-gear-a",
     lazyImport: () => import("@/pages/SettingPage"),
+  },
+  ProfilePage: {
+    name: "Profile",
+    path: "/profile/:username",
+    isShow: true,
+    lazyImport: () => import("@/pages/ProfilePage"),
   },
   SignInPage: {
     name: "Sign in",
