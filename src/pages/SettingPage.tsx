@@ -1,6 +1,7 @@
 import SettingForm from "@/components/SettingForm";
 import { UserContext } from "@/context/UserContextProvider";
 import Token from "@/lib/token";
+import queryClient from "@/queries/queryClient";
 import { useGetUserQuery } from "@/queries/user.query";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +10,13 @@ const SettingPage = () => {
   const navigate = useNavigate();
   const { setIsLogin } = useContext(UserContext);
 
-  const {data: userInfo} = useGetUserQuery();
+  const { data: userInfo } = useGetUserQuery();
 
   const onLogout = () => {
     Token.removeToken();
     setIsLogin(false);
     navigate("/");
+    queryClient.removeQueries();
   };
 
   return (

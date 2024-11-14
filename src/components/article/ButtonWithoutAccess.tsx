@@ -1,10 +1,44 @@
+import { QUERY_ARTICLE_KEY } from "@/constants/query.constant";
 import { IArticle } from "@/interfaces/main";
+import { useFollowMutation, useUnfollowMutation } from "@/queries/profiles.query";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ButtonWithoutAccessProps {
   articleInfo: IArticle;
 }
 
 const ButtonWithoutAccess = ({ articleInfo }: ButtonWithoutAccessProps) => {
+  const followUserMutation = useFollowMutation();
+  const unfollowUserMutation = useUnfollowMutation();
+  const queryClient = useQueryClient();
+
+  const { following, username } = articleInfo.author;
+
+  const onToggleFollow = () => {
+    if (following) {
+      unfollowUserMutation.mutate(
+        { username },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLE_KEY] });
+          },
+        }
+      );
+      return;
+    }
+
+    if (!following) {
+      followUserMutation.mutate(
+        { username },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLE_KEY] });
+          },
+        }
+      );
+      return;
+    }
+  };
   return (
     <>
       <button
@@ -12,11 +46,10 @@ const ButtonWithoutAccess = ({ articleInfo }: ButtonWithoutAccessProps) => {
         className={`btn btn-sm btn-outline-${
           articleInfo.author.following ? "primary" : "secondary"
         }`}
-        // onClick={() => onToggleFollow()}
-      >
-        <i className="ion-plus-round"></i>
-        &nbsp; Follow {articleInfo.author.username}{" "}
-        <span className="counter">(10)</span>
+        onClick={() => onToggleFollow()}>
+        {!following && <i className="ion-plus-round"></i>}
+        {following && <i className="ion-minus-round"></i>}
+        &nbsp; {following ? "Unfollow" : "Follow"} {username}{" "}
       </button>
       &nbsp;&nbsp;
       <button
