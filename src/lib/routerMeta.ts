@@ -1,3 +1,4 @@
+import EditArticlePage from "@/pages/EditArticlePage";
 import ProfilePage from "@/pages/ProfilePage";
 
 export interface IRouterMeta {
@@ -29,6 +30,12 @@ const routerMeta: RouterMetaType = {
     isAuth: true,
     icon: "ion-compose",
     lazyImport: () => import("@/pages/NewArticlePage"),
+  },
+  EditArticlePage: {
+    name: "Edit Article",
+    path: "/editor/:slug",
+    isShow: false,
+    lazyImport: () => import("@/pages/EditArticlePage"),
   },
   ArticlePage: {
     name: "Article",

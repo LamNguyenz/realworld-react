@@ -10,7 +10,10 @@ interface IButtonWithAccessProps {
 
 const ButtonWithAccess = ({ articleInfo }: IButtonWithAccessProps) => {
   const navigate = useNavigate();
+
   const deleteArticleMutation = useDeleteArticleMutation();
+
+  console.log("articleInfo: ", articleInfo);
 
   const onDelete = (slug: string) => {
     deleteArticleMutation.mutate(
@@ -27,7 +30,9 @@ const ButtonWithAccess = ({ articleInfo }: IButtonWithAccessProps) => {
   return (
     <>
       <button
-        onClick={() => navigate(`/editor/${articleInfo.slug}`)}
+        onClick={() =>
+          navigate(`/editor/${articleInfo.slug}`, { state: articleInfo })
+        }
         type="button"
         className="btn btn-sm btn-outline-secondary">
         <i className="ion-edit"></i> Edit Article

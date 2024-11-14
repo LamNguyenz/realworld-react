@@ -1,18 +1,71 @@
+import { QUERY_ARTICLES_KEY } from "@/constants/query.constant";
 import useInputs from "@/lib/hooks/useInputs";
-import { useLocation, useParams } from "react-router-dom";
+import { useUpdateArticleMutation } from "@/queries/articles.query";
+import queryClient from "@/queries/queryClient";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditArticlePage = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
 
   const [articleData, onChangeArticleData, setArticleData] = useInputs({
-	});
+    slug: state?.slug,
+    title: state?.title,
+    description: state?.description,
+    body: state?.body,
+    tagList: state?.tagList,
+    tag: "",
+  });
+
+  const removeTag = (tag: string) => {
+    setArticleData({
+      ...articleData,
+      tagList: articleData.tagList.filter((t: string) => t !== tag),
+    });
+  };
+
+  const addTag = (newTag: string) => {
+    setArticleData({
+      ...articleData,
+      tagList: [...articleData.tagList, newTag],
+    });
+  };
+
+  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (!articleData.tagList.includes(articleData.tag)) {
+        addTag(articleData.tag);
+      }
+    }
+  };
+
+  const updateArticleMutation = useUpdateArticleMutation();
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateArticleMutation.mutate(articleData, {
+      onSuccess(data) {
+        queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLES_KEY] });
+        toast.success("Article updated successfully");
+        if (data?.data?.article?.slug) {
+          navigate(`/article/${data?.data?.article?.slug}`);
+        }
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError(error: any) {
+        toast.error(error?.response?.data?.message);
+      },
+    });
+  };
 
   return (
     <div className="editor-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
-            <form>
+            <form onSubmit={onSubmit}>
               <fieldset>
                 <fieldset className="form-group">
                   <input
@@ -51,7 +104,7 @@ const EditArticlePage = () => {
                     name="tag"
                     value={articleData.tag}
                     onChange={onChangeArticleData}
-                    // onKeyDown={onEnter}
+                    onKeyDown={onEnter}
                   />
                 </fieldset>
                 <div className="tag-list">
@@ -59,7 +112,7 @@ const EditArticlePage = () => {
                     <span className="tag-default tag-pill" key={tag}>
                       <i
                         className="ion-close-round cursor-pointer mr-[5px]"
-                        // onClick={() => removeTag(tag)}
+                        onClick={() => removeTag(tag)}
                       />{" "}
                       {tag}{" "}
                     </span>

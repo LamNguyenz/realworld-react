@@ -5,6 +5,7 @@ import {
   deleteArticleParam,
   getArticleParam,
   getArticlesParam,
+  updateArticleParam,
 } from "./articlesRepository.param";
 
 export const getArticles = async ({
@@ -36,6 +37,27 @@ export const createArticle = async ({
   return await apiClient({
     method: "post",
     url: `/articles`,
+    data: {
+      article: {
+        title,
+        description,
+        body,
+        tagList,
+      },
+    },
+  });
+};
+
+export const updateArticle = async ({
+  slug,
+  title,
+  description,
+  body,
+  tagList,
+}: updateArticleParam) => {
+  return await apiClient({
+    method: "put",
+    url: `/articles/${slug}`,
     data: {
       article: {
         title,

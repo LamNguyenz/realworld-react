@@ -15,6 +15,14 @@ export interface craeteArticleParam {
   tagList: string[];
 }
 
+export interface updateArticleParam {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
 export interface deleteArticleParam {
   slug: string;
 }

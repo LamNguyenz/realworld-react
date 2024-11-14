@@ -4,6 +4,7 @@ import {
   deleteArticle,
   getArticle,
   getArticles,
+  updateArticle,
 } from "@/repositories/articles/articlesRepository";
 import { useMutation, useSuspenseQueries } from "@tanstack/react-query";
 
@@ -19,7 +20,6 @@ export const useGetArticlesQueries = ({
       {
         queryKey: [QUERY_ARTICLES_KEY, { isGlobal, page }],
         queryFn: () => getArticles({ isGlobal, page }).then((res) => res.data),
-        staleTime: 20000,
       },
     ],
   });
@@ -31,7 +31,6 @@ export const useGetArticleQueries = (slug: string) => {
       {
         queryKey: [QUERY_ARTICLE_KEY, slug],
         queryFn: () => getArticle({ slug }).then((res) => res.data?.article),
-        staleTime: 20000,
       },
     ],
   });
@@ -45,4 +44,9 @@ export const useCreateArticleMutation = () =>
 export const useDeleteArticleMutation = () =>
   useMutation({
     mutationFn: deleteArticle,
+  });
+
+export const useUpdateArticleMutation = () =>
+  useMutation({
+    mutationFn: updateArticle,
   });
