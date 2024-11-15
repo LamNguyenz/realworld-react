@@ -1,4 +1,8 @@
-import { QUERY_ARTICLE_KEY, QUERY_ARTICLES_KEY } from "@/constants/query.constant";
+import {
+  QUERY_ARTICLE_KEY,
+  QUERY_ARTICLES_KEY,
+  QUERY_TAG_KEY,
+} from "@/constants/query.constant";
 import {
   createArticle,
   deleteArticle,
@@ -6,6 +10,7 @@ import {
   getArticles,
   updateArticle,
 } from "@/repositories/articles/articlesRepository";
+import { getTags } from "@/repositories/tags/tagsRepository";
 import { useMutation, useSuspenseQueries } from "@tanstack/react-query";
 
 export const useGetArticlesQueries = ({
@@ -20,6 +25,10 @@ export const useGetArticlesQueries = ({
       {
         queryKey: [QUERY_ARTICLES_KEY, { isGlobal, page }],
         queryFn: () => getArticles({ isGlobal, page }).then((res) => res.data),
+      },
+      {
+        queryKey: [QUERY_TAG_KEY],
+        queryFn: () => getTags().then((res) => res.data),
       },
     ],
   });

@@ -10,8 +10,9 @@ const HomePage = () => {
 
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [isGlobal, setIsGlobal] = useState(true);
+  const [selectedTag, setSelectedTag] = useState("");
 
-  const [articlesInfo] = useGetArticlesQueries({ isGlobal, page });
+  const [articlesInfo, tagsInfo] = useGetArticlesQueries({ isGlobal, page });
 
   return (
     <div className="home-page">
@@ -27,26 +28,51 @@ const HomePage = () => {
           <div className="col-md-9">
             <div className="feed-toggle">
               <ul className="nav nav-pills outline-active">
+                {isLogin && (
+                  <li className="nav-item">
+                    <Link
+                      className={`nav-link ${isGlobal ? "" : "active"}`}
+                      to="/"
+                      onClick={() => setIsGlobal(true)}>
+                      Your Feed
+                    </Link>
+                  </li>
+                )}
+
                 <li className="nav-item">
-                  <Link className={`nav-link ${isGlobal ? "" : "active"}`} to="/" onClick={() => setIsGlobal(true)}>
-                    Your Feed
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${isGlobal ? "active" : ""}`} to="/" onClick={() => setIsGlobal(false)}>
+                  <Link
+                    className={`nav-link ${isGlobal ? "active" : ""}`}
+                    to="/"
+                    onClick={() => setIsGlobal(false)}>
                     Global Feed
                   </Link>
                 </li>
               </ul>
             </div>
-            {articlesInfo.data && <FeedList articlesInfo={articlesInfo.data} page={page} setPage={setPage} />}
+            {articlesInfo.data && (
+              <FeedList
+                articlesInfo={articlesInfo.data}
+                page={page}
+                setPage={setPage}
+              />
+            )}
           </div>
 
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
 
-              <div className="tag-list">{/* TODO: Handle tag */}</div>
+              <div className="tag-list">
+                {tagsInfo?.data?.map((tag: string) => (
+                  <Link
+                    to={`/`}
+                    key={tag}
+                    className="tag-pill tag-default"
+                    onClick={() => setSelectedTag(tag)}>
+                    {tag}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
