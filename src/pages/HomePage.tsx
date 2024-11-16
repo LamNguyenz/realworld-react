@@ -1,4 +1,4 @@
-import FeedList from "@/components/feed/FeedList";
+import FeedList from "@/components/Feed/FeedList";
 import { UserContext } from "@/context/UserContextProvider";
 import { useGetArticlesQueries } from "@/queries/articles.query";
 import { parseAsInteger, useQueryState } from "nuqs";
@@ -33,7 +33,7 @@ const HomePage = () => {
                     <Link
                       className={`nav-link ${isGlobal ? "" : "active"}`}
                       to="/"
-                      onClick={() => setIsGlobal(true)}>
+                      onClick={() => setIsGlobal(false)}>
                       Your Feed
                     </Link>
                   </li>
@@ -43,7 +43,7 @@ const HomePage = () => {
                   <Link
                     className={`nav-link ${isGlobal ? "active" : ""}`}
                     to="/"
-                    onClick={() => setIsGlobal(false)}>
+                    onClick={() => setIsGlobal(true)}>
                     Global Feed
                   </Link>
                 </li>
