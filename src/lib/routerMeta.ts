@@ -1,5 +1,3 @@
-import EditArticlePage from "@/pages/EditArticlePage";
-import ProfilePage from "@/pages/ProfilePage";
 
 export interface IRouterMeta {
   name?: string;

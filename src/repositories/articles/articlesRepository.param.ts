@@ -26,3 +26,14 @@ export interface updateArticleParam {
 export interface deleteArticleParam {
   slug: string;
 }
+
+export interface createCommentParam {
+  slug: string;
+  body: string;
+}
+
+export interface deleteCommentParam {
+  slug: string;
+  id: string;
+}
+

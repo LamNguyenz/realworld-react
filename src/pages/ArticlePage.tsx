@@ -1,6 +1,7 @@
 import ButtonSelector from "@/components/article/ButtonSelector";
 import Comment from "@/components/article/Comment";
 import { UserContext } from "@/context/UserContextProvider";
+import routerMeta from "@/lib/routerMeta";
 import convertToDate from "@/lib/utils/convertToDate";
 import { useGetArticleQueries } from "@/queries/articles.query";
 import { useContext } from "react";
@@ -10,7 +11,7 @@ import remarkGfm from "remark-gfm";
 
 const ArticlePage = () => {
   const { slug = "" } = useParams();
-  const [articleInfo] = useGetArticleQueries(slug);
+  const [articleInfo, commentsInfo] = useGetArticleQueries(slug);
   const { isLogin } = useContext(UserContext);
 
   return (
@@ -75,7 +76,15 @@ const ArticlePage = () => {
 
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
-            <Comment comments={articleInfo.data?.comments || []} />
+            {isLogin ? (
+              <Comment comments={commentsInfo.data || []} slug={slug} />
+            ) : (
+              <p>
+                <Link to={routerMeta.SignInPage.path}>Sign in</Link> or{" "}
+                <Link to={routerMeta.SignUpPage.path}>sign up</Link> to add comments
+                on this article.
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { QUERY_PROFILE_KEY } from "@/constants/query.constant";
+import routerMeta from "@/lib/routerMeta";
 import { useFollowMutation, useUnfollowMutation } from "@/queries/profiles.query";
 import queryClient from "@/queries/queryClient";
 import { useGetUserQuery } from "@/queries/user.query";
@@ -50,7 +51,7 @@ const FollowButton = ({ profileName, isFollowing }: FollowButtonProps) => {
     <>
       {user?.username === profileName ? (
         <Link
-          to={`/profiles/${profileName}`}
+          to={`${routerMeta.SettingPage.path}`}
           className="btn btn-sm btn-outline-secondary action-btn">
           <i className="ion-gear-a"></i>
           &nbsp; Edit Profile Settings

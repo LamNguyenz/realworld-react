@@ -18,7 +18,7 @@ export interface IArticle {
 }
 
 export interface IComment {
-  id: number;
+  id: string;
   createdAt: string;
   updatedAt: string;
   body: string;

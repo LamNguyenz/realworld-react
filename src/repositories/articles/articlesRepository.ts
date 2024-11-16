@@ -2,7 +2,9 @@ import { UNIT_PER_PAGE } from "@/constants";
 import apiClient from "../apiClient";
 import {
   craeteArticleParam,
+  createCommentParam,
   deleteArticleParam,
+  deleteCommentParam,
   getArticleParam,
   getArticlesParam,
   updateArticleParam,
@@ -87,5 +89,31 @@ export const unFavoriteArticle = async (slug: string) => {
   return await apiClient({
     method: "delete",
     url: `/articles/${slug}/favorite`,
+  });
+};
+
+export const getComments = async (slug: string) => {
+  return await apiClient({
+    method: "get",
+    url: `/articles/${slug}/comments`,
+  });
+};
+
+export const createComment = async ({ slug, body }: createCommentParam) => {
+  return await apiClient({
+    method: "post",
+    url: `/articles/${slug}/comments`,
+    data: {
+      comment: {
+        body,
+      },
+    },
+  });
+};
+
+export const deleteComment = async ({ slug, id }: deleteCommentParam) => {
+  return await apiClient({
+    method: "delete",
+    url: `/articles/${slug}/comments/${id}`,
   });
 };
