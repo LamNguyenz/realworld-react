@@ -1,5 +1,10 @@
 import { QUERY_ARTICLE_KEY } from "@/constants/query.constant";
 import { IArticle } from "@/interfaces/main";
+import { cn } from "@/lib/utils/twMerge";
+import {
+  useFavoriteArticleMutation,
+  useUnFavoriteArticleMutation,
+} from "@/queries/articles.query";
 import { useFollowMutation, useUnfollowMutation } from "@/queries/profiles.query";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -10,9 +15,32 @@ interface ButtonWithoutAccessProps {
 const ButtonWithoutAccess = ({ articleInfo }: ButtonWithoutAccessProps) => {
   const followUserMutation = useFollowMutation();
   const unfollowUserMutation = useUnfollowMutation();
-  const queryClient = useQueryClient();
+  const favoriteArticleMutation = useFavoriteArticleMutation();
+  const unFavoriteArticleMutation = useUnFavoriteArticleMutation();
 
+  const queryClient = useQueryClient();
   const { following, username } = articleInfo.author;
+
+  const onToggleFavorite = () => {
+    const { slug } = articleInfo;
+
+    if (articleInfo.favorited) {
+      unFavoriteArticleMutation.mutate(slug, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLE_KEY] });
+        },
+      });
+      return;
+    }
+    if (!articleInfo.favorited) {
+      favoriteArticleMutation.mutate(slug, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QUERY_ARTICLE_KEY] });
+        },
+      });
+      return;
+    }
+  };
 
   const onToggleFollow = () => {
     if (following) {
@@ -54,11 +82,15 @@ const ButtonWithoutAccess = ({ articleInfo }: ButtonWithoutAccessProps) => {
       &nbsp;&nbsp;
       <button
         type="button"
-        className={`btn btn-sm btn-outline-${
-          articleInfo.favorited ? "primary" : "secondary"
-        }`}
-        // onClick={() => onToggleFavorite()}
-      >
+        className={cn(
+          `btn btn-sm btn-outline-${
+            articleInfo.favorited ? "primary" : "secondary"
+          }`,
+          {
+            "bg-green-200": !!articleInfo.favorited,
+          }
+        )}
+        onClick={() => onToggleFavorite()}>
         <i className="ion-heart"></i>
         &nbsp; Favorite Post{" "}
         <span className="counter">{articleInfo.favoritesCount}</span>

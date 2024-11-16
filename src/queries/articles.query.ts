@@ -6,8 +6,10 @@ import {
 import {
   createArticle,
   deleteArticle,
+  favoriteArticle,
   getArticle,
   getArticles,
+  unFavoriteArticle,
   updateArticle,
 } from "@/repositories/articles/articlesRepository";
 import { getTags } from "@/repositories/tags/tagsRepository";
@@ -58,4 +60,14 @@ export const useDeleteArticleMutation = () =>
 export const useUpdateArticleMutation = () =>
   useMutation({
     mutationFn: updateArticle,
+  });
+
+export const useFavoriteArticleMutation = () =>
+  useMutation({
+    mutationFn: favoriteArticle,
+  });
+
+export const useUnFavoriteArticleMutation = () =>
+  useMutation({
+    mutationFn: unFavoriteArticle,
   });

@@ -75,3 +75,17 @@ export const deleteArticle = async ({ slug }: deleteArticleParam) => {
     url: `/articles/${slug}`,
   });
 };
+
+export const favoriteArticle = async (slug: string) => {
+  return await apiClient({
+    method: "post",
+    url: `/articles/${slug}/favorite`,
+  });
+};
+
+export const unFavoriteArticle = async (slug: string) => {
+  return await apiClient({
+    method: "delete",
+    url: `/articles/${slug}/favorite`,
+  });
+};
